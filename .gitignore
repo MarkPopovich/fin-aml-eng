@@ -1,0 +1,6 @@
+.DS_Store
+historic_csv.csv
+*/test_area.ipynb
+.idea/
+.spyproject/
+*/__pycache__/
