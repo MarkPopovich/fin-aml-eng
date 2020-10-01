@@ -134,13 +134,13 @@ def load_from_pandas(df, destination_table):
 
     df.to_gbq(destination_table, table_schema=schema, if_exists='append')
 
-    def save_and_reset(df, destination_table):
-        '''
-        Saves the current df to the BigQuery table and empties it in memory
-        '''
-        load_from_pandas(df, destination_table)
-        save_artifacts(stocks, day_tracker, key_map)
-        return pd.DataFrame()
+def save_and_reset(df, destination_table):
+    '''
+    Saves the current df to the BigQuery table and empties it in memory
+    '''
+    load_from_pandas(df, destination_table)
+    save_artifacts(stocks, day_tracker, key_map)
+    return pd.DataFrame()
 
 if __name__ == "__main__":
 
