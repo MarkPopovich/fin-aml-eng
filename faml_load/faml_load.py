@@ -46,6 +46,8 @@ def call_historical(ticker, date, time=None, limit=50000, i=None):
     try:
         res = requests.get(url, params).json()
     except HTTPError:
+        if i == None:
+            i = 1
         rng = float(random.randint(1,100)) / 100
         time.sleep(i + rng)
         i = i * 2
