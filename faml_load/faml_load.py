@@ -2,6 +2,7 @@ import pickle
 import requests
 import pandas as pd
 import sys
+import time
 from google.cloud import bigquery
 from urllib.error import HTTPError
 from datetime import datetime
@@ -28,7 +29,7 @@ def save_artifacts(stocks, day_tracker, key_map):
     with open('./tmp/artifacts.pickle', 'wb') as f:
         pickle.dump(artifacts, f)
 
-def call_historical(ticker, date, time=None, limit=50000):
+def call_historical(ticker, date, time=None, limit=50000, i=None):
     '''
     ticker: instructment symbol, :str:
     date: day, :str:, '2020:05:15'
@@ -43,11 +44,14 @@ def call_historical(ticker, date, time=None, limit=50000):
     }
 
     try:
-        res = requests.get(url, params)
+        res = requests.get(url, params).json()
     except HTTPError:
-        return call_historical(ticker, date, time, limit)
+        rng = float(random.randint(1,100)) / 100
+        time.sleep(i + rng)
+        i = i * 2
+        res = call_historical(ticker, date, time, limit, i)
 
-    return res.json()
+    return res
 
 def format_and_save(json, file_path=None):
     #print(json)
