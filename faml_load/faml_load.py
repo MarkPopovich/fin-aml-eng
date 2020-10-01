@@ -1,7 +1,7 @@
 import pickle
 import requests
 import pandas as pd
-import os
+import sys
 from google.cloud import bigquery
 from urllib.error import HTTPError
 from datetime import datetime
@@ -224,7 +224,7 @@ if __name__ == "__main__":
                     elif 'days_complete' not in stocks[stock]:
                         stocks[stock]['days_complete'] = [day]
 
-                if os.getsizeof(df) > 50000000:
+                if sys.getsizeof(df) > 50000000:
                     df = save_and_reset(df, destination_table)
 
                 if len(json['results']) < limit:
