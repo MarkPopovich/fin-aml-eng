@@ -36,6 +36,7 @@ def save_artifacts(stocks, day_tracker, key_map):
     with open('./tmp/artifacts.pickle', 'wb') as f:
         pickle.dump(artifacts, f)
     # save to the cloud
+    fs = gcsfs.GCSFileSystem(project=stora.project)
     with fs.open('fin-aml/ref/artifacts.pickle', 'wb') as file:
         pickle.dump(artifacts, f)
 
