@@ -25,8 +25,8 @@ def load_artifacts():
 
 def save_artifacts(stocks, day_tracker, key_map):
     fs = gcsfs.GCSFileSystem(project=stora.project)
-    with fs.open('fin-aml/ref/artifacts.pickle', 'rb') as file:
-        artifacts = pickle.load(file)
+    with fs.open('fin-aml/ref/artifacts.pickle', 'rb') as f:
+        artifacts = pickle.load(f)
 
     artifacts['stocks'] = stocks
     artifacts['days'] = day_tracker
@@ -38,7 +38,7 @@ def save_artifacts(stocks, day_tracker, key_map):
     # save to the cloud
     fs = gcsfs.GCSFileSystem(project=stora.project)
     with fs.open('fin-aml/ref/artifacts.pickle', 'wb') as file:
-        pickle.dump(artifacts, f)
+        pickle.dump(artifacts, file)
 
 
 def call_historical(ticker, date, time=None, limit=50000, i=1):
