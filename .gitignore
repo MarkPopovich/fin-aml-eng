@@ -4,3 +4,4 @@ historic_csv.csv
 .idea/
 .spyproject/
 */__pycache__/
+historic_trades/tmp/artifacts.pickle
