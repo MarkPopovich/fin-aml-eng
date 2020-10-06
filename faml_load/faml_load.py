@@ -29,7 +29,7 @@ def save_artifacts(stocks, day_tracker, key_map):
     with open('./tmp/artifacts.pickle', 'wb') as f:
         pickle.dump(artifacts, f)
 
-def call_historical(ticker, date, time=None, limit=50000, i=None):
+def call_historical(ticker, date, time=None, limit=50000, i=1):
     '''
     ticker: instructment symbol, :str:
     date: day, :str:, '2020:05:15'
@@ -46,8 +46,8 @@ def call_historical(ticker, date, time=None, limit=50000, i=None):
     try:
         res = requests.get(url, params).json()
     except HTTPError:
-        if i == None:
-            i = 1
+        # implements exponential wait if an HTTPError is received
+        # Polygon regularly gives bad gateway errors
         rng = float(random.randint(1,100)) / 100
         time.sleep(i + rng)
         i = i * 2
