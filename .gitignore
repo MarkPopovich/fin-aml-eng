@@ -5,3 +5,4 @@ historic_csv.csv
 .spyproject/
 */__pycache__/
 historic_trades/tmp/artifacts.pickle
+*/*/token.pickle

@@ -4,29 +4,31 @@ Repository to govern the fin-aml project in live mode. Machine learning ideas in
 
 The project is divided into 4 sections:
 
-#### Load
+#### Historic Trades
 
 Handles the job of querying Polygon.io (third party API) for historic trade information and loading it into the BigQuery table.
 
+Runs a simple script that iteratively queries the API, collates a csv, and loads the csv to BigQuery directly.
+
 Tools: RESTful API, SQL, BqPivot ("Flash Pivot"), Python, GCloud
 
-#### Train
+#### Train Tensorflow
 
 ETL BigQuery Data and Train a TensorFlow model using DataProc with Dask and TensorFlow.
 
 Tools: DataProc distributed clusters (HaDoop), Dask, TensorFlow
 
-#### Stream
+#### Await Streaming
 
 Async Await streaming data from TDA API and stream it into the BigQuery Table.
 
 Tools: Websockets (Python Asyncio), GCloud
 
-#### Predict
+#### Instance Predict
 
 Load's a previously trained model, queries the newest information and makes predictions. Sends live trade requests to TDA. 
 
 Tools: DataFlow (Apache Beam), Pandas, Python
 
-![engineering flowchart](images/fin-aml-eng-flowchart.png) 
+![engineering flowchart](images/fin-aml-eng-flowchart_v2.png) 
 
