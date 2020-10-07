@@ -2,14 +2,19 @@ import pickle
 import requests
 import pandas as pd
 import sys
-import time
+import gcsfs
 from google.cloud import bigquery
+from google.cloud import storage
 from urllib.error import HTTPError
 from datetime import datetime
 
 def load_artifacts():
-    with open('./tmp/artifacts.pickle', 'rb') as f:
-        artifacts = pickle.load(f)
+    '''
+    Load from gcs bucket
+    '''
+    fs = gcsfs.GCSFileSystem(project=stora.project)
+    with fs.open('fin-aml/ref/artifacts.pickle', 'rb') as file:
+        artifacts = pickle.load(file)
 
     stocks = artifacts['stocks']
     days = artifacts['days']
@@ -19,15 +24,22 @@ def load_artifacts():
     return stocks, days, key_map
 
 def save_artifacts(stocks, day_tracker, key_map):
-    with open('./tmp/artifacts.pickle', 'rb') as f:
+    fs = gcsfs.GCSFileSystem(project=stora.project)
+    with fs.open('fin-aml/ref/artifacts.pickle', 'rb') as f:
         artifacts = pickle.load(f)
 
     artifacts['stocks'] = stocks
     artifacts['days'] = day_tracker
     artifacts['key_map'] = key_map
 
+    # save a local copy as a redundancy
     with open('./tmp/artifacts.pickle', 'wb') as f:
         pickle.dump(artifacts, f)
+    # save to the cloud
+    fs = gcsfs.GCSFileSystem(project=stora.project)
+    with fs.open('fin-aml/ref/artifacts.pickle', 'wb') as file:
+        pickle.dump(artifacts, file)
+
 
 def call_historical(ticker, date, time=None, limit=50000, i=1):
     '''
@@ -151,6 +163,7 @@ def save_and_reset(df, destination_table):
 if __name__ == "__main__":
 
     client = bigquery.Client()
+    stora = storage.Client()
     key = '0URbzTqnNwTsHIe4UPz8AjazYT9vYFNq'
 
     limit = 50000
