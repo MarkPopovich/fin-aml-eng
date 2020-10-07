@@ -30,5 +30,5 @@ Load's a previously trained model, queries the newest information and makes pred
 
 Tools: DataFlow (Apache Beam), Pandas, Python
 
-![engineering flowchart](images/fin-aml-eng-flowchart_v2.png) 
+![engineering flowchart](images/fin-aml-engineering-flowchart_v2.png) 
 
